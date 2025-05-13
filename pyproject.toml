@@ -1,14 +1,35 @@
 [project]
 name = "mcp-opentofu"
 version = "0.1.0"
-description = "Add your description here"
+description = "MCP for OpenTofu"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
+    "fastapi>=0.115.12",
     "pydantic-ai>=0.2.3",
 ]
 
 [dependency-groups]
 dev = [
+    "pyright>=1.1.400",
+    "pytest>=8.3.5",
     "ruff>=0.11.9",
 ]
+
+[tool.pytest]
+testpaths = ["tests"]
+
+[tool.pyright]
+include = ["mcp"]
+typeCheckingMode = "strict"
+reportMissingImports = true
+reportMissingTypeStubs = false
+
+[tool.ruff]
+line-length = 88
+target-version = "py39"
+select = ["E", "F", "I"]
+
+
+[tool.ruff.isort]
+combine-as-imports = true
