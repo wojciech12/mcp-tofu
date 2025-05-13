@@ -3,8 +3,8 @@
 This document contains critical information about working with this codebase. Follow these guidelines precisely.
 
 ## Project Overview
-This is a Python-based MCP (Model Control Plane) server implementation using MCP (the official Python SDK for Model Context Protocol servers and clients)
 
+This is a Python-based MCP (Model Control Plane) server implementation using MCP (the official Python SDK for Model Context Protocol servers and clients)
 
 ## Core Development Rules
 
