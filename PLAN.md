@@ -1,162 +1,104 @@
-# Implementation Plan: MCP for OpenTofu
+# MCP Server for OpenTofu - Implementation Plan
 
-This document outlines our iterative approach to implementing Model Control Plane (MCP) support for OpenTofu. We will implement the core OpenTofu commands sequentially: `init`, `validate`, `plan`, `apply`, and `destroy`.
+This document outlines the iterative approach to implementing a Model Control Plane (MCP) server for OpenTofu, supporting the essential commands: init, validate, plan, apply, and destroy.
 
-## Project Setup and Initial Structure
+## Project Overview
 
-### Phase 0: Project Scaffolding
-- Set up project structure with proper packaging
-- Configure development tools (ruff, pyright, pre-commit)
-- Establish base MCP server implementation
-- Create initial test framework
-- Add documentation skeleton
+We're building an MCP server that will interface with OpenTofu, providing a structured API to execute and manage infrastructure as code commands. This implementation will follow MCP standards and provide a robust interface for OpenTofu operations.
 
-## Iterative Implementation
+## Phase 1: Core Infrastructure (Week 1)
 
-### Phase 1: OpenTofu `init` Support
-**Goal**: Implement support for the `init` command to prepare working directories.
+### 1.1 Project Setup and Configuration
+- [x] Initialize project structure
+- [ ] Create configuration models using Pydantic
+- [ ] Implement logging and error handling utilities
+- [ ] Setup basic MCP server structure
 
-1. **Core Functionality**
-   - Create OpenTofu client wrapper
-   - Implement directory structure management
-   - Design data models for init configuration
-   - Support module installation
-   - Handle backend configuration
+### 1.2 OpenTofu Integration Foundations
+- [ ] Create OpenTofu command execution service
+- [ ] Implement command output parsing utilities
+- [ ] Design models for OpenTofu command inputs and outputs
+- [ ] Create basic testing fixtures
 
-2. **Error Handling**
-   - Provider not found
-   - Invalid configuration syntax
-   - Backend initialization failures
-   - Permission issues
+## Phase 2: Command Implementation - Init & Validate (Week 2)
 
-3. **Testing**
-   - Unit tests for init functionality
-   - Integration tests with simple configurations
-   - Error case coverage
+### 2.1 Init Command
+- [ ] Define models for Init command input/output
+- [ ] Implement Init command execution service
+- [ ] Add error handling for common Init failures
+- [ ] Write unit tests for Init command
 
-### Phase 2: OpenTofu `validate` Support
-**Goal**: Implement configuration validation functionality.
+### 2.2 Validate Command
+- [ ] Define models for Validate command input/output
+- [ ] Implement Validate command execution service
+- [ ] Parse and structure validation results
+- [ ] Write unit tests for Validate command
+- [ ] Integration tests for Init + Validate workflow
 
-1. **Core Functionality**
-   - Parse and validate configuration files
-   - Check resource references
-   - Validate provider configurations
-   - Report validation errors
+## Phase 3: Command Implementation - Plan (Week 3)
 
-2. **Error Handling**
-   - Invalid syntax
-   - Missing required attributes
-   - Invalid references
-   - Provider configuration errors
+### 3.1 Plan Command Core
+- [ ] Define comprehensive models for Plan command input/output
+- [ ] Implement Plan command execution service
+- [ ] Parse and structure plan outputs (resources to add/change/destroy)
 
-3. **Testing**
-   - Unit tests for validation logic
-   - Test cases for common configuration errors
-   - Test report formatting
+### 3.2 Plan Analysis
+- [ ] Implement plan difference analysis tools
+- [ ] Create visualization/formatting utilities for plan outputs
+- [ ] Write unit and integration tests for Plan command
 
-### Phase 3: OpenTofu `plan` Support
-**Goal**: Implement plan generation to show required changes.
+## Phase 4: Command Implementation - Apply (Week 4)
 
-1. **Core Functionality**
-   - Generate execution plans
-   - Detect changes to resources
-   - Format plan output
-   - Support plan file generation
-   - Handle variables and input values
+### 4.1 Apply Command
+- [ ] Define models for Apply command input/output
+- [ ] Implement Apply command execution service with proper status tracking
+- [ ] Handle approval workflows and apply timeouts
+- [ ] Write unit tests for Apply command
 
-2. **Error Handling**
-   - Configuration errors
-   - Provider errors during plan generation
-   - State file issues
-   - Variable resolution problems
+### 4.2 State Management
+- [ ] Implement state file parsing and management
+- [ ] Create state comparison utilities
+- [ ] Integration tests for Plan + Apply workflow
 
-3. **Testing**
-   - Plan generation with various resource types
-   - Change detection accuracy
-   - Plan output formatting
-   - Variable handling
+## Phase 5: Command Implementation - Destroy (Week 5)
 
-### Phase 4: OpenTofu `apply` Support
-**Goal**: Implement infrastructure creation and updates.
+### 5.1 Destroy Command
+- [ ] Define models for Destroy command input/output
+- [ ] Implement Destroy command execution service
+- [ ] Add safety mechanisms and confirmation workflows
+- [ ] Write unit tests for Destroy command
 
-1. **Core Functionality**
-   - Execute planned changes
-   - Update state
-   - Handle resource dependencies
-   - Support approval workflows
-   - Implement state locking
+### 5.2 Final Integration
+- [ ] End-to-end testing for complete workflows
+- [ ] Performance optimization for large infrastructures
+- [ ] Documentation updates
 
-2. **Error Handling**
-   - Resource creation failures
-   - Dependency resolution issues
-   - State conflicts
-   - Partial apply scenarios
+## Implementation Details
 
-3. **Testing**
-   - Resource creation tests
-   - Update scenarios
-   - Dependency resolution
-   - State management
-   - Error recovery
+### Models Structure
+- `models/config.py` - Configuration models
+- `models/commands/` - Command-specific input/output models
+- `models/state.py` - OpenTofu state representation models
 
-### Phase 5: OpenTofu `destroy` Support
-**Goal**: Implement infrastructure destruction.
+### Services Structure
+- `services/tofu_executor.py` - Core command execution service
+- `services/commands/` - Command-specific implementation services
+- `services/parser.py` - Output parsing services
 
-1. **Core Functionality**
-   - Generate destroy plans
-   - Execute resource deletion
-   - Handle deletion order
-   - Update state after destruction
+### API Structure
+- `api/router.py` - API routes definition
+- `api/endpoints/` - Command-specific endpoint implementations
 
-2. **Error Handling**
-   - Deletion failures
-   - Dependency issues during deletion
-   - Protected resources
-   - Partial destroy scenarios
+## Testing Strategy
+1. Unit tests for each command implementation
+2. Integration tests for command sequences
+3. Mock testing for OpenTofu execution
+4. End-to-end tests with real OpenTofu operations on safe resources
 
-3. **Testing**
-   - Resource deletion order
-   - State updates after destruction
-   - Protected resource handling
-   - Error scenarios
-
-## Integration and Refinement
-
-### Phase 6: Integration and Polish
-- End-to-end workflow testing
-- Performance optimization
-- Documentation completion
-- User experience improvements
-- Edge case handling
-
-## Implementation Schedule
-
-| Phase | Focus | Estimated Duration |
-|-------|-------|-------------------|
-| 0 | Project Scaffolding | 1 week |
-| 1 | `init` Command | 2 weeks |
-| 2 | `validate` Command | 2 weeks |
-| 3 | `plan` Command | 3 weeks |
-| 4 | `apply` Command | 3 weeks |
-| 5 | `destroy` Command | 2 weeks |
-| 6 | Integration & Polish | 2 weeks |
-
-## Success Metrics
-
-For each phase, we will measure success by:
-1. All tests passing with good coverage
-2. Compatibility with official OpenTofu CLI
-3. Proper error handling and reporting
-4. Documentation completeness
-5. Type checking passing with no errors
-
-## Risks and Mitigations
-
-| Risk | Impact | Mitigation |
-|------|--------|------------|
-| OpenTofu API changes | High | Monitor releases, maintain version compatibility |
-| Performance issues with large configurations | Medium | Implement progressive loading, benchmark early |
-| Complex state management | High | Thorough testing, follow established patterns |
-| Security concerns | High | Follow least-privilege principle, secure credential handling |
-
-This plan will be revisited and refined at the completion of each phase to incorporate lessons learned and adjust for any changing requirements.
+## Iterative Delivery
+Each phase will follow this process:
+1. Design models and interfaces
+2. Write failing tests
+3. Implement command functionality
+4. Pass tests and refactor
+5. Document and review before proceeding to next phase
