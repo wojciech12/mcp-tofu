@@ -4,7 +4,13 @@ This document contains critical information about working with this codebase. Fo
 
 ## Project Overview
 
-This is a Python-based MCP (Model Control Plane) server implementation using MCP (the official Python SDK for Model Context Protocol servers and clients)
+This is a DevOps-focused MCP (Model Context Protocol) server implementation for OpenTofu using **fastmcp v2** framework. The server provides quick access to infrastructure-as-code best practices while facilitating AI model interactions with OpenTofu operations.
+
+**Key Technologies:**
+- fastmcp v2 (Python MCP server framework)
+- OpenTofu binary integration
+- context7 MCP for accessing latest documentation
+- Embedded DevOps best practices and security validations
 
 ## Core Development Rules
 
@@ -23,7 +29,7 @@ This is a Python-based MCP (Model Control Plane) server implementation using MCP
    - Line length: 88 chars maximum
 
 3. Testing Requirements
-   - Framework: `uv run --frozen pytest` / `just test`
+   - Framework: `just test` (uses pytest with uv)
    - Async testing: use anyio, not asyncio
    - Coverage: test edge cases and errors
    - New features require tests
@@ -65,15 +71,15 @@ Use descriptive prefixes followed by descriptive names with dashes:
 - You MUST squash and merge PRs, NEVER only merge
 - Use `gh` command line tool for PR operations
 
-
 ## Python Tools
 
 ## Code Formatting
 
 1. Ruff
-   - Format: `uv run --frozen ruff format .`
+   - Format: `just ruff` (formats Python files)
    - Check: `uv run --frozen ruff check .`
    - Fix: `uv run --frozen ruff check . --fix`
+   - Full formatting: `just fmt` (runs prettier + ruff)
    - Critical issues:
      - Line length (88 chars)
      - Import sorting (I001)
@@ -90,7 +96,7 @@ Use descriptive prefixes followed by descriptive names with dashes:
      - Type narrowing for strings
      - Version warnings can be ignored if checks pass
 
-3. Running: `uv run -m mcp.app`
+3. Running: `uv run -m mcp_tofu` (fastmcp v2 server)
 
 4. Pre-commit
    - Config: `.pre-commit-config.yaml`
@@ -113,11 +119,19 @@ Use descriptive prefixes followed by descriptive names with dashes:
 
 ## Development Guidelines
 
+**FastMCP v2 Specific:**
+- Follow fastmcp v2 patterns (see atproto_mcp example)
+- Use fastmcp decorators for tool definitions
+- Implement proper MCP tool parameter validation
+- Follow MCP protocol compliance
+
+**General Guidelines:**
 - All data models should use Pydantic for validation
-- API endpoints should be properly typed
+- MCP tools should be properly typed and documented
 - Follow PEP 8 style guidelines
 - Write unit tests for all new functionality
 - Document public APIs
+- Embed DevOps best practices in all OpenTofu operations
 
 ## Code style
 
