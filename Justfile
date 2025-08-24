@@ -11,3 +11,7 @@ prettier:
 [group("fmt")]
 ruff:
     ruff format .claude/*/*.py
+
+[group("test")]
+test:
+    uv run --frozen pytest
