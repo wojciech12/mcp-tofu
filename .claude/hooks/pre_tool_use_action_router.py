@@ -4,12 +4,11 @@
 import json
 import sys
 from pathlib import Path
+from pre_commit_checks import run_format
 
 # Add the hooks directory to the Python path
 hooks_dir = Path(__file__).parent
 sys.path.insert(0, str(hooks_dir))
-
-from pre_commit_checks import run_format
 
 
 def main():
