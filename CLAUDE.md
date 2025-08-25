@@ -7,6 +7,7 @@ This document contains critical information about working with this codebase. Fo
 This is a DevOps-focused MCP (Model Context Protocol) server implementation for OpenTofu using **fastmcp v2** framework. The server provides quick access to infrastructure-as-code best practices while facilitating AI model interactions with OpenTofu operations.
 
 **Key Technologies:**
+
 - fastmcp v2 (Python MCP server framework)
 - OpenTofu binary integration
 - context7 MCP for accessing latest documentation
@@ -120,12 +121,14 @@ Use descriptive prefixes followed by descriptive names with dashes:
 ## Development Guidelines
 
 **FastMCP v2 Specific:**
+
 - Follow fastmcp v2 patterns (see atproto_mcp example)
 - Use fastmcp decorators for tool definitions
 - Implement proper MCP tool parameter validation
 - Follow MCP protocol compliance
 
 **General Guidelines:**
+
 - All data models should use Pydantic for validation
 - MCP tools should be properly typed and documented
 - Follow PEP 8 style guidelines
